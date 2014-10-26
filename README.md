@@ -10,4 +10,5 @@ This project contains examples of some Spring features like -
 5) Bean Post Processor
 6) Spring REST
 7) Spring scheduled task
-8) AOP with AspectJ
+8) Event handling
+9) AOP with AspectJ
