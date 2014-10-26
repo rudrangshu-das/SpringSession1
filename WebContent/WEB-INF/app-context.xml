@@ -1,0 +1,123 @@
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+	    http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<!-- Activates various annotations to be detected in bean classes -->
+	<context:annotation-config />
+	
+	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
+	 For example @Controller and @Service. Make sure to set the correct base-package-->
+	<context:component-scan base-package="com.xor.spring" />
+		
+	<bean id="springBeanFactory" class="com.xor.spring.util.SpringBeanFactory" />
+	
+	<!--  ###### checkin checkout log bean def ##### -->
+	<bean id="checkInCheckOutLog" class="com.xor.spring.model.CheckInCheckOutLog" scope="request">
+		<aop:scoped-proxy/>
+	</bean>
+	
+	<!--  ###### compensation beans def ##### -->
+	<bean id="seComp" class="com.xor.spring.model.SECompensation" scope="prototype" >
+		<property name="grade" value="G1" />
+		<property name="band" value="B1" />
+		<property name="fixedPay" value="300000" />
+		<property name="variablePay" value="50000" />
+	</bean>
+	
+	<bean id="sseComp1" class="com.xor.spring.model.SSEBand1Compensation" scope="prototype" >
+		<property name="grade" value="G2" />
+		<property name="band" value="B2" />
+		<property name="fixedPay" value="500000" />
+		<property name="variablePay" value="50000" />
+	</bean>
+	
+	<bean id="sseComp2" class="com.xor.spring.model.SSEBand2Compensation" scope="prototype" >
+		<property name="grade" value="G2" />
+		<property name="band" value="B3" />
+		<property name="fixedPay" value="600000" />
+		<property name="variablePay" value="100000" />
+	</bean>
+	
+	<bean id="tlComp1" class="com.xor.spring.model.TLBand1Compensation" scope="prototype" >
+		<property name="grade" value="G3" />
+		<property name="band" value="B4" />
+		<property name="fixedPay" value="800000" />
+		<property name="variablePay" value="100000" />
+	</bean>
+	
+	<bean id="tlComp2" class="com.xor.spring.model.TLBand2Compensation" scope="prototype" >
+		<property name="grade" value="G3" />
+		<property name="band" value="B5" />
+		<property name="fixedPay" value="1000000" />
+		<property name="variablePay" value="150000" />
+	</bean>
+	
+	<!--  ###### employee beans def ##### -->
+	
+	<bean id="emp-1" class="com.xor.spring.model.Employee" scope="prototype">
+		<property name="id" value="1" />
+		<property name="name" value="Alia Bhatt" />
+		<property name="designation" value="sse" />
+		<property name="yoe" value="4" />
+		<!-- <property name="compensation" value="{#this.yoe ge 3 and #this.yoe le 5 ? #compensationService.get('sseComp1') : #compensationService.get('sseComp2')}" /> -->
+	</bean>
+	
+	<bean id="emp-2" class="com.xor.spring.model.Employee" scope="prototype">
+		<property name="id" value="2" />
+		<property name="name" value="Arjun Kapoor" />
+		<property name="designation" value="sse" />
+		<!-- <property name="compensation" value="{#this.yoe ge 3 and #this.yoe le 5 ? #compensationService.get('sseComp1') : #compensationService.get('sseComp2')}" /> -->
+	</bean>
+	
+	<bean id="emp-3" class="com.xor.spring.model.Employee" scope="prototype">
+		<property name="id" value="3" />
+		<property name="name" value="Ronit Roy" />
+		<property name="designation" value="tl" />
+		<property name="yoe" value="10" />
+		<!-- <property name="compensation" value="{#this.yoe ge 6 and #this.yoe le 8 ? #compensationService.get('tlComp1') : #compensationService.get('tlComp2')}" /> -->
+	</bean>
+	
+	<!--  ###### compensation service def ##### -->
+	<bean id="compensationService" class="com.xor.spring.service.CompensationService">
+		<lookup-method name="createSECompensation" bean="seComp"/>
+		<lookup-method name="createSSEBand1Compensation" bean="sseComp1"/>
+		<lookup-method name="createSSEBand2Compensation" bean="sseComp2"/>
+		<lookup-method name="createTLBand1Compensation" bean="tlComp1"/>
+		<lookup-method name="createTLBand2Compensation" bean="tlComp2"/>
+	</bean>
+	
+	<!--  ###### employee repository bean def ##### -->
+	<bean id="employeeRepository" class="com.xor.spring.core.EmployeeRepository" />
+	
+	<!-- ######  bean post processor def ##### -->
+	<bean class="com.xor.spring.core.EmployeeRepoPostProcessor" />
+	
+	<!-- ######  app config def ##### -->
+	<bean id="appConfig" class="com.xor.spring.core.AppConfig" />
+	
+	<!-- ######  scheduled task def ##### -->
+	<task:annotation-driven/>
+	<bean id="activeEmployeeListUpdateTask" class="com.xor.spring.tasks.ActiveEmployeeListUpdateTask" />
+	
+	<!-- ###### Event listener bean def ##### -->
+	<bean id="checkOutEventListener" class="com.xor.spring.event.CheckOutEventListener" />
+	
+	
+	
+	
+</beans>
