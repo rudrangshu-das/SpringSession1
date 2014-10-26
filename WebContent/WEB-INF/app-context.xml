@@ -118,6 +118,20 @@
 	<bean id="checkOutEventListener" class="com.xor.spring.event.CheckOutEventListener" />
 	
 	
+	<!-- ###### AOP performance logging ##### -->
+	<bean id="performanceMonitor" class="com.xor.spring.aspect.PerformanceMonitor" />
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	
+	<!-- <aop:config proxy-target-class="true">
+	Name of the Aspect we're defining
+		<aop:aspect ref="performanceMonitor">
+	
+			<aop:pointcut id="serviceMethod" expression="execution(* com.xor.spring.core.EmployeeRepository.*(..))" />
+			<aop:before method="start" pointcut-ref="serviceMethod" />
+			<aop:after  method="logTimeElapsed"  pointcut-ref="serviceMethod"/>  
+			
+		</aop:aspect>
+		
+	</aop:config> -->
 	
 </beans>
