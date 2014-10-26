@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 
@@ -15,6 +16,8 @@ import com.xor.spring.model.DailyTimesheet;
 import com.xor.spring.model.Employee;
 
 public class EmployeeRepository implements ApplicationEventPublisherAware {
+
+	private final Logger log = Logger.getLogger(EmployeeRepository.class);
 
 	private Map<String, Employee> repo = null;
 	private Map<String, CheckInCheckOutLog> checkinStatus = null;
@@ -39,6 +42,7 @@ public class EmployeeRepository implements ApplicationEventPublisherAware {
 	}
 
 	public void init() {
+		log.info(" -- EmployeeRepository init called --");
 		if (repo == null) {
 			repo = new HashMap<String, Employee>();
 		}

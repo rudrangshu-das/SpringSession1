@@ -69,24 +69,19 @@
 	
 	<!--  ###### employee beans def ##### -->
 	
-	<bean id="emp-1" class="com.xor.spring.model.Employee" scope="prototype">
-		<property name="id" value="1" />
-		<property name="name" value="Alia Bhatt" />
+	<bean id="employeeDetail-1" class="com.xor.spring.model.EmployeeDetail" scope="prototype">
 		<property name="designation" value="sse" />
 		<property name="yoe" value="4" />
 		<!-- <property name="compensation" value="{#this.yoe ge 3 and #this.yoe le 5 ? #compensationService.get('sseComp1') : #compensationService.get('sseComp2')}" /> -->
 	</bean>
 	
-	<bean id="emp-2" class="com.xor.spring.model.Employee" scope="prototype">
-		<property name="id" value="2" />
-		<property name="name" value="Arjun Kapoor" />
+	<bean id="employeeDetail-2" class="com.xor.spring.model.EmployeeDetail" scope="prototype">
 		<property name="designation" value="sse" />
+		<property name="yoe" value="7" />
 		<!-- <property name="compensation" value="{#this.yoe ge 3 and #this.yoe le 5 ? #compensationService.get('sseComp1') : #compensationService.get('sseComp2')}" /> -->
 	</bean>
 	
-	<bean id="emp-3" class="com.xor.spring.model.Employee" scope="prototype">
-		<property name="id" value="3" />
-		<property name="name" value="Ronit Roy" />
+	<bean id="employeeDetail-3" class="com.xor.spring.model.EmployeeDetail" scope="prototype">
 		<property name="designation" value="tl" />
 		<property name="yoe" value="10" />
 		<!-- <property name="compensation" value="{#this.yoe ge 6 and #this.yoe le 8 ? #compensationService.get('tlComp1') : #compensationService.get('tlComp2')}" /> -->

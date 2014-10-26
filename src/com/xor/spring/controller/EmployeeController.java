@@ -15,6 +15,9 @@ import com.xor.spring.core.EmployeeRepository;
 import com.xor.spring.core.EmployeeRepository.Status;
 import com.xor.spring.model.CheckInCheckOutLog;
 import com.xor.spring.model.Employee;
+import com.xor.spring.model.EmployeeDetail;
+import com.xor.spring.model.EmployeeVO;
+import com.xor.spring.util.SpringBeanFactory;
 
 @Controller
 @RequestMapping("employee")
@@ -42,9 +45,11 @@ public class EmployeeController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public String add(@RequestBody Employee employee) {
+	public String add(@RequestBody EmployeeVO vo) {
 
-		employee.calculateCompensation();
+		Employee employee = new Employee(vo);
+		EmployeeDetail employeeDetail = (EmployeeDetail) SpringBeanFactory.getBean(vo.getEmpDetailBeanId());
+		employee.setDetail(employeeDetail);
 		employeeRepository.addEmployee(employee);
 		return "Success";
 	}
