@@ -25,13 +25,13 @@ public class PerformanceMonitor {
 	public void logTimeElapsed(JoinPoint jp){
 		endTimeInMillis = System.currentTimeMillis();
 		log.info("==============performance monitor log start ================");
-		Date d = new Date(System.currentTimeMillis());
+		Date d = new Date(endTimeInMillis);
 		SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		String formatDate = df.format(d);
 		log.info("Class =" + jp.getSignature().getDeclaringTypeName() + " | Method =" + jp.getSignature().getName() + " last accessed at ="
 				+ formatDate);
 		long elapsedTime = endTimeInMillis-startTimeInMillis;
-		log.info("Execution time in millis =" + jp.getSignature().getName() + " = " + elapsedTime);
+		log.info("Execution time in millis for method " + jp.getSignature().getName() + " is " + elapsedTime);
 		log.info("============================================================");
 	}
 	

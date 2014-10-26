@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xor.spring.core.EmployeeRepository;
 import com.xor.spring.core.EmployeeRepository.Status;
+import com.xor.spring.exception.MyCustomException;
 import com.xor.spring.model.CheckInCheckOutLog;
 import com.xor.spring.model.Employee;
 import com.xor.spring.model.EmployeeDetail;
@@ -45,8 +46,11 @@ public class EmployeeController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	@ResponseBody
-	public String add(@RequestBody EmployeeVO vo) {
+	public String add(@RequestBody EmployeeVO vo) throws MyCustomException {
 
+		if (employeeRepository.getRepo().containsKey("emp -" + vo.getId())) {
+			throw new MyCustomException("Employee already exists");
+		}
 		Employee employee = new Employee(vo);
 		EmployeeDetail employeeDetail = (EmployeeDetail) SpringBeanFactory.getBean(vo.getEmpDetailBeanId());
 		employee.setDetail(employeeDetail);

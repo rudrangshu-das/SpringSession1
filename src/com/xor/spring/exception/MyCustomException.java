@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.BAD_REQUEST, reason = "Bad Request")
 public class MyCustomException extends Exception {
 
-	public MyCustomException(String msg, Exception e) {
-		super(msg, e);
+	public MyCustomException(String msg) {
+		super(msg);
 	}
 }
