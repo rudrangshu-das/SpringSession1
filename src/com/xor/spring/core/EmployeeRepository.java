@@ -12,7 +12,6 @@ import org.springframework.context.ApplicationEventPublisherAware;
 
 import com.xor.spring.event.CheckOutEvent;
 import com.xor.spring.model.CheckInCheckOutLog;
-import com.xor.spring.model.DailyTimesheet;
 import com.xor.spring.model.Employee;
 
 public class EmployeeRepository implements ApplicationEventPublisherAware {
@@ -23,7 +22,7 @@ public class EmployeeRepository implements ApplicationEventPublisherAware {
 	private Map<String, CheckInCheckOutLog> checkinStatus = null;
 	private Map<String, CheckInCheckOutLog> checkOutStatus = null;
 	private List<Employee> activeList = null;
-	private Map<String, List<DailyTimesheet>> employeeTimesheets = null;
+
 
 	public Map<String, Employee> getRepo() {
 		return repo;
@@ -55,9 +54,6 @@ public class EmployeeRepository implements ApplicationEventPublisherAware {
 		if (activeList == null) {
 			activeList = new ArrayList<Employee>();
 		}
-		if (employeeTimesheets == null) {
-			employeeTimesheets = new HashMap<String, List<DailyTimesheet>>();
-		}
 	}
 
 	public void addEmployee(Employee emp) {
@@ -84,17 +80,6 @@ public class EmployeeRepository implements ApplicationEventPublisherAware {
 				Employee emp = repo.get(empId);
 				activeList.add(emp);
 			}
-		}
-	}
-
-	public void addTimeSheet(String empId, DailyTimesheet ts) {
-		if (employeeTimesheets.containsKey(empId)) {
-			List<DailyTimesheet> list = employeeTimesheets.get(empId);
-			list.add(ts);
-		} else {
-			List<DailyTimesheet> list = new ArrayList<DailyTimesheet>();
-			employeeTimesheets.put(empId, list);
-			list.add(ts);
 		}
 	}
 

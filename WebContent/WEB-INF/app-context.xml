@@ -87,6 +87,11 @@
 		<!-- <property name="compensation" value="{#this.yoe ge 6 and #this.yoe le 8 ? #compensationService.get('tlComp1') : #compensationService.get('tlComp2')}" /> -->
 	</bean>
 	
+	<bean id="employeeDetail-4" class="com.xor.spring.model.EmployeeDetail" scope="prototype">
+		<property name="designation" value="se" />
+		<property name="yoe" value="2" />
+	</bean>
+	
 	<!--  ###### compensation service def ##### -->
 	<bean id="compensationService" class="com.xor.spring.service.CompensationService">
 		<lookup-method name="createSECompensation" bean="seComp"/>
@@ -111,6 +116,9 @@
 	
 	<!-- ###### Event listener bean def ##### -->
 	<bean id="checkOutEventListener" class="com.xor.spring.event.CheckOutEventListener" />
+	
+	<!-- ###### Employee Service bean def ##### -->
+	<bean id="employeeService" class="com.xor.spring.service.EmployeeService" />
 	
 	
 	<!-- ###### AOP performance logging ##### -->

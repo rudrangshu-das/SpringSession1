@@ -19,4 +19,9 @@ public class DailyTimesheet {
 		return hours;
 	}
 
+	@Override
+	public String toString() {
+		return "DailyTimesheet [date=" + date + ", hours=" + hours + "]";
+	}
+
 }

@@ -15,9 +15,11 @@ import com.xor.spring.core.EmployeeRepository;
 import com.xor.spring.core.EmployeeRepository.Status;
 import com.xor.spring.exception.MyCustomException;
 import com.xor.spring.model.CheckInCheckOutLog;
+import com.xor.spring.model.DailyTimesheet;
 import com.xor.spring.model.Employee;
 import com.xor.spring.model.EmployeeDetail;
 import com.xor.spring.model.EmployeeVO;
+import com.xor.spring.service.EmployeeService;
 import com.xor.spring.util.SpringBeanFactory;
 
 @Controller
@@ -30,12 +32,19 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
+	@Autowired
+	private EmployeeService employeeService;
+
 	public CheckInCheckOutLog getCheckInCheckOutLog() {
 		return checkInCheckOutLog;
 	}
 
 	public EmployeeRepository getEmployeeRepository() {
 		return employeeRepository;
+	}
+
+	public EmployeeService getEmployeeService() {
+		return employeeService;
 	}
 
 	@RequestMapping("getById/{empId}")
@@ -76,6 +85,12 @@ public class EmployeeController {
 
 		employeeRepository.checkOut(empId, checkInCheckOutLog);
 		return "Success";
+	}
+
+	@RequestMapping("timesheets/{empId}")
+	@ResponseBody
+	public List<DailyTimesheet> getEmployeeTimesheets(@PathVariable int empId) {
+		return employeeService.getTimesheets(empId);
 	}
 
 	@RequestMapping("getActiveEmployees")
